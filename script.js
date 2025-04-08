@@ -47,26 +47,31 @@ const books = [
 
 
 //! Snack 1 - Filtra e Modifica
-//? Somma numeri
-function sommaNumeri(a,b) {console.log(a + b)}
-sommaNumeri(5, 3);
 //? Libri con più di 300 pagine
 const longBooks = books.filter((book) => book.pages > 300);
 // console.log(longBooks);
 //? Titoli dei libri con più di 300 pagine
 const longBooksTitles = longBooks.map((book) => book.title);
-console.log("I titoli dei libri con più di 300 pagine sono:", longBooksTitles);
+console.log("I titoli dei libri con più di 300 pagine sono:");
+longBooksTitles.forEach(t => console.log(t));
+
 
 //! Snack 2 - Il primo libro scontato   
 //? Libri disponibili
-const availableBooks = books.filter((book) => book.available === true);
+const availableBooks = books.filter((book) => book.available);
 console.log("I libri disponibili sono:", availableBooks);
 //? Prezzo scontato dei libri disponibili
-const discountedBooks = availableBooks.map((book) => parseInt(book.price)*0.8);
-console.log("Il prezzo scontato dei libri disponibili è:", discountedBooks);
+const discountedBooks = availableBooks.map((book) => {
+    const discountPrice = parseFloat(book.price.replace("€", ""))*0.8;
+    return {
+        ...book,
+        price: `${discountPrice}€`
+    }
+});
+console.log("La lista dei libri disponibili con il prezzo scontato:", discountedBooks);
 //? Primo libro disponibile con un prezzo intero
-const fullPricedBook = discountedBooks.find((book) => Number.isInteger(book.price));
-console.log(fullPricedBook);
+const fullPricedBook = discountedBooks.find((book) => Number.isInteger(parseFloat(book.price.replace("€", ""))));
+console.log("Il primo libro disponibile con un prezzo intero è:", fullPricedBook);
 
 //! Snack 3 Ordinare gli autori
 //? Autori dei libri
